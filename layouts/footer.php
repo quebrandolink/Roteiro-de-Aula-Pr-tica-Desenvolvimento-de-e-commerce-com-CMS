@@ -22,21 +22,21 @@
             <div class="col-md-3">
                 <h5>Produtos Destaque</h5>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-4">
                         <div class="ratio ratio-1x1">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c2/Xbox-Console-Set.png"
                                 class="img-thumbnail" alt="Produto 1">
                         </div>
 
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                         <div class="ratio ratio-1x1">
                             <img src="https://cms-assets.xboxservices.com/assets/b1/bb/b1bb3528-6d5b-44b6-9a34-1041376b4eaa.png?n=Console-Compare_Image-1083_XSX-CB_458x290_02.png"
                                 class="img-thumbnail" alt="Produto 2">
 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-4">
                         <div class="ratio ratio-1x1">
                             <img src="https://images.tcdn.com.br/img/img_prod/1211726/xbox_360_4gb_seminovo_1259_1_d6bae2d4ea0fcfa7bb3ee1b2bad1224d.png"
                                 class="img-thumbnail" alt="Produto 3">

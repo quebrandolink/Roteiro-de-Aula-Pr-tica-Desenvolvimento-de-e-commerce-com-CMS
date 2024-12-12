@@ -1,4 +1,5 @@
 .nav-buttons {
+    /* isto fez com que não fosse possível alinhar os itens da nav totalmente a direita*/
     margin-left: 60%;
 }
 
@@ -8,21 +9,20 @@
 
 .link-escuro {
     color: #ccc;
-    /* Cor escura para contraste */
     text-decoration: none;
 }
 
 .link-escuro:hover {
     color: #fff;
-    /* Cor diferente ao passar o mouse */
 }
 
 #home {
     background-image: url('../imgs/back.jpg');
+    background-size: cover;
+    background-position-y: 0px;
     width: 100%;
     height: 100vh;
-    background-size: cover;
-    background-position-y: 10px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -1,6 +1,6 @@
 <?php include('layouts/header.php'); ?>
 
-<section class="hero" id="home">
+<section id="home">
     <div class="container">
         <h5>NOVIDADES</h5>
         <h1><span>Lorem ipsum</span> dolor sit amet.</h1>
