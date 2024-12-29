@@ -42,11 +42,11 @@
                         <a class="nav-link" aria-current="page" href="#">Fale Conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href=""><i class="fa fa-shopping-cart"
+                        <a class="nav-link" aria-current="page" href="#"><i class="fa fa-shopping-cart"
                                 aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href=""><i class="fa fa-user"
+                        <a class="nav-link" aria-current="page" href="admin/login.php"><i class="fa fa-user"
                                 aria-hidden="true"></i></a>
                     </li>
                 </ul>
