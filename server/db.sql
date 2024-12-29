@@ -66,5 +66,5 @@ CREATE TABLE admins (
 );
 
 -- inserindo um registro na tabela de administradores
-INSERT into admins VALUES(null,"admin", "admin@shop.com.br",
-"e10adc3949ba59abbe56e057f20f883e");
+INSERT into admins (admin_id, admin_name, admin_email, admin_password) VALUES(null,"admin", "admin@shop.com.br",
+MD5('123456'));
