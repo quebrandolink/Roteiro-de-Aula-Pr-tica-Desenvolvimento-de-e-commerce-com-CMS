@@ -1,46 +1,43 @@
 <?php
-include_once("header.php");
+include('header.php');
+if (!isset($_SESSION['admin_logged_in'])) {
+    header('Location: login.php');
+    exit();
+}
 
-//deleta o pedido!.
-if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET["id"]) && $_GET["id"] > 0) {
-    $order_id = $_GET["id"];
-    $query = "DELETE FROM orders WHERE order_id = $order_id";
+//deleta o produto!.
+if (isset($_GET["delete_user"]) && $_GET["delete_user"] == 1 && isset($_GET["user_id"]) && $_GET["user_id"] > 0) {
+    $user_id = $_GET["user_id"];
+    $query = "DELETE FROM users WHERE user_id = $user_id";
     if ($conn->query($query)) {
-        header('Location: index.php');
+        header('Location: users.php');
     } else {
-        $error = "Erro ao excluir pedido.";
+        $error = "Erro ao excluir produto.";
     }
 }
 
-// Consulta para buscar os pedidos
-$sql = "SELECT * FROM orders";
+// Consulta para buscar os produtos
+$sql = "SELECT * FROM users";
 
 // Lógica de paginação (ajuste o número de itens por página conforme necessário)
 $itens_por_pagina = 5;
 $pagina_atual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 $inicio = ($pagina_atual - 1) * $itens_por_pagina;
 
-$sql .= " ORDER BY order_id DESC";
-
+$sql .= " ORDER BY user_id DESC";
 // Limitar a consulta para a página atual
 $sql .= " LIMIT $inicio, $itens_por_pagina";
+
+
 $result = $conn->query($sql);
 
-
 // Calcular o número total de páginas
-$sql_count = "SELECT COUNT(*) AS total FROM orders";
-$total_result = $conn->query($sql_count);
-$total = $total_result->fetch_assoc();
-
-$total_registros = $total['total'];
-
-// Calcular o número total de páginas
+$total_registros = mysqli_num_rows($conn->query($sql));
 $total_paginas = ceil($total_registros / $itens_por_pagina);
 
-if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET["id"]) && $_GET["id"] > 0) {
-
-}
 ?>
+
+
 
 
 <link href="../assets/css/dashboard.css" rel="stylesheet">
@@ -69,7 +66,7 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
-                <h2>Orders</h2>
+                <h2>Users</h2>
                 <?php if (isset($error)): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong><?= $error ?></strong>
@@ -80,12 +77,10 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                     <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">Order Id</th>
-                                <th scope="col">Order Status</th>
-                                <th scope="col">User Id</th>
-                                <th scope="col">Order Date</th>
-                                <th scope="col">Editar</th>
-                                <th scope="col">Deletar</th>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,21 +91,19 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                                 </tr>
 
                             <?php endif;
-
-                            while ($row = $result->fetch_assoc()): ?>
-
+                            while ($user = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td><?php echo $row['order_id']; ?></td>
-                                    <td><?php echo $row['order_status']; ?></td>
-                                    <td><?php echo $row['user_id']; ?></td>
-                                    <td><?php echo $row['order_date']; ?></td>
-                                    <td><a href="edit_order.php?id=<?php echo $row['order_id']; ?>"
-                                            class="btn btn-primary btn-sm">Editar</a></td>
-                                    <td><a href="index.php?delete_order=1&id=<?php echo $row['order_id']; ?>"
-                                            class="btn btn-danger btn-sm">Deletar</a></td>
+                                    <td><?= $user['user_id']; ?></td>
+                                    <td><?= $user['user_name']; ?></td>
+                                    <td><?= $user['user_email']; ?></td>
+                                    <td>
+                                        <a href="add_user.php?user_id=<?= $user['user_id']; ?>"
+                                            class="btn btn-warning btn-sm">Editar</a>
+                                        <a href="users.php?delete_user=1&user_id=<?= $user['user_id']; ?>"
+                                            class="btn btn-danger btn-sm">Excluir</a>
+                                    </td>
                                 </tr>
                             <?php endwhile; ?>
-
                         </tbody>
                     </table>
                 </div>

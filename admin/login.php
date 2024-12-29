@@ -1,8 +1,8 @@
 <?php include_once("header.php");
 
-
-if (isset($_SESSION["admin_id"]) == true) {
+if (isset($_SESSION["admin_logged_in"]) && $_SESSION["admin_logged_in"] == true) {
     header("Location: index.php");
+
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -13,6 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conn, query: $sql);
 
     if (mysqli_num_rows($result) == 1) {
+        $row = mysqli_fetch_array($result);
+        $_SESSION['admin_logged_in'] = true;
         $_SESSION['admin_id'] = $row['admin_id'];
         $_SESSION['admin_name'] = $row['admin_name'];
         $_SESSION['admin_email'] = $row['admin_email'];

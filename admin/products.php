@@ -1,46 +1,47 @@
 <?php
-include_once("header.php");
+include('header.php');
+if (!isset($_SESSION['admin_logged_in'])) {
+    header('Location: login.php');
+    exit();
+}
 
-//deleta o pedido!.
-if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET["id"]) && $_GET["id"] > 0) {
-    $order_id = $_GET["id"];
-    $query = "DELETE FROM orders WHERE order_id = $order_id";
+//deleta o produto!.
+if (isset($_GET["delete_product"]) && $_GET["delete_product"] == 1 && isset($_GET["product_id"]) && $_GET["product_id"] > 0) {
+    $product_id = $_GET["product_id"];
+    $query = "DELETE FROM products WHERE product_id = $product_id";
     if ($conn->query($query)) {
-        header('Location: index.php');
+        header('Location: products.php');
     } else {
-        $error = "Erro ao excluir pedido.";
+        $error = "Erro ao excluir produto.";
     }
 }
 
-// Consulta para buscar os pedidos
-$sql = "SELECT * FROM orders";
+// Consulta para buscar os produtos
+$sql = "SELECT * FROM products";
 
 // Lógica de paginação (ajuste o número de itens por página conforme necessário)
 $itens_por_pagina = 5;
 $pagina_atual = isset($_GET['pagina']) ? $_GET['pagina'] : 1;
 $inicio = ($pagina_atual - 1) * $itens_por_pagina;
 
-$sql .= " ORDER BY order_id DESC";
-
+$sql .= " ORDER BY product_id DESC";
 // Limitar a consulta para a página atual
 $sql .= " LIMIT $inicio, $itens_por_pagina";
+
+
 $result = $conn->query($sql);
 
-
 // Calcular o número total de páginas
-$sql_count = "SELECT COUNT(*) AS total FROM orders";
+$sql_count = "SELECT COUNT(*) AS total FROM products";
 $total_result = $conn->query($sql_count);
 $total = $total_result->fetch_assoc();
 
 $total_registros = $total['total'];
-
-// Calcular o número total de páginas
 $total_paginas = ceil($total_registros / $itens_por_pagina);
 
-if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET["id"]) && $_GET["id"] > 0) {
-
-}
 ?>
+
+
 
 
 <link href="../assets/css/dashboard.css" rel="stylesheet">
@@ -69,7 +70,7 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                     <h1 class="h2">Dashboard</h1>
                 </div>
 
-                <h2>Orders</h2>
+                <h2>Products</h2>
                 <?php if (isset($error)): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong><?= $error ?></strong>
@@ -77,15 +78,17 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                     </div>
                 <?php endif; ?>
                 <div class="table-responsive">
+                    <a href="add_product.php" class="btn btn-primary mb-3">Adicionar Produto</a>
                     <table class="table table-striped">
                         <thead class="table-dark">
                             <tr>
-                                <th scope="col">Order Id</th>
-                                <th scope="col">Order Status</th>
-                                <th scope="col">User Id</th>
-                                <th scope="col">Order Date</th>
-                                <th scope="col">Editar</th>
-                                <th scope="col">Deletar</th>
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Preço</th>
+                                <th>Cor</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,29 +99,36 @@ if (isset($_GET["delete_order"]) && $_GET["delete_order"] == "1" && isset($_GET[
                                 </tr>
 
                             <?php endif;
-
-                            while ($row = $result->fetch_assoc()): ?>
-
+                            while ($product = $result->fetch_assoc()): ?>
                                 <tr>
-                                    <td><?php echo $row['order_id']; ?></td>
-                                    <td><?php echo $row['order_status']; ?></td>
-                                    <td><?php echo $row['user_id']; ?></td>
-                                    <td><?php echo $row['order_date']; ?></td>
-                                    <td><a href="edit_order.php?id=<?php echo $row['order_id']; ?>"
-                                            class="btn btn-primary btn-sm">Editar</a></td>
-                                    <td><a href="index.php?delete_order=1&id=<?php echo $row['order_id']; ?>"
-                                            class="btn btn-danger btn-sm">Deletar</a></td>
+                                    <td><?= $product['product_id']; ?></td>
+                                    <td>
+                                        <?php if ($product['product_image'] != null): ?>
+                                            <img src="../assets/imgs/<?= $product['product_image']; ?>"
+                                                alt="Imagem <?= $product['product_image']; ?>" class="img-thumbnail"
+                                                style="height=30;" width="50" height="50">
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?= $product['product_name']; ?></td>
+                                    <td><?= $product['product_category']; ?></td>
+                                    <td>R$ <?= $product['product_price']; ?></td>
+                                    <td><?= $product['product_color']; ?></td>
+                                    <td>
+                                        <a href="add_product.php?product_id=<?= $product['product_id']; ?>"
+                                            class="btn btn-warning btn-sm">Editar</a>
+                                        <a href="add_image.php?product_id=<?= $product['product_id']; ?>"
+                                            class="btn btn-primary btn-sm">Imagens</a>
+                                        <a href="products.php?delete_product=1&product_id=<?= $product['product_id']; ?>"
+                                            class="btn btn-danger btn-sm">Excluir</a>
+                                    </td>
                                 </tr>
                             <?php endwhile; ?>
-
                         </tbody>
                     </table>
                 </div>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination  justify-content-center mt-4">
-
-                        <?php
-                        for ($i = 1; $i <= $total_paginas; $i++): ?>
+                        <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
                             <li class="page-item <?php if ($i == $pagina_atual)
                                 echo 'active'; ?>">
                                 <a class="page-link" href="?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
