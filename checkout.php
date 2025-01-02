@@ -66,12 +66,12 @@ if (isset($_POST['checkout_btn'])) {
             </thead>
             <tbody>
                 <?php foreach ($_SESSION['cart'] as $item): ?>
-                    <tr>
-                        <td><?= $item['product_name']; ?></td>
-                        <td>R$ <?= number_format($item['product_price'], 2, ',', '.'); ?></td>
-                        <td><?= $item['quantity']; ?></td>
-                        <td>R$ <?= number_format($item['product_price'] * $item['quantity'], 2, ',', '.'); ?></td>
-                    </tr>
+                <tr>
+                    <td><?= $item['product_name']; ?></td>
+                    <td>R$ <?= number_format($item['product_price'], 2, ',', '.'); ?></td>
+                    <td><?= $item['quantity']; ?></td>
+                    <td>R$ <?= number_format($item['product_price'] * $item['quantity'], 2, ',', '.'); ?></td>
+                </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -94,7 +94,7 @@ if (isset($_POST['checkout_btn'])) {
                 <label>UF</label>
                 <input type="text" name="shipping_uf" class="form-control" maxlength="2" required>
             </div>
-            <button type="submit" name="checkout_btn" class="btn btn-success mt-3">Finalizar Compra</button>
+            <a href="simulate_payment.php" class="btn btn-success mt-3">Finalizar Compra</a>
         </form>
     </div>
 </section>
