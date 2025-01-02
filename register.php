@@ -30,8 +30,9 @@ if (isset($_POST['register_btn'])) {
             $query = "INSERT INTO users (user_name, user_email, user_password) VALUES ('$name', '$email', '$password')";
             if ($conn->query($query)) {
                 $_SESSION['logged_in'] = true;
-                $_SESSION['user_name'] = $name;
                 $_SESSION['user_id'] = $conn->insert_id;
+                $_SESSION['user_name'] = $name;
+                $_SESSION['user_email'] = $email;
                 header('Location: account.php');
                 exit();
             } else {

@@ -23,6 +23,7 @@ if (isset($_POST['login_btn'])) {
         $_SESSION['logged_in'] = true;
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['user_name'] = $user['user_name'];
+        $_SESSION['user_email'] = $user['user_email'];
         header('Location: account.php');
         exit();
     } else {

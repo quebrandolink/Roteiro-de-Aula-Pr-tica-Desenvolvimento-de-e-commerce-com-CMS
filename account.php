@@ -68,6 +68,7 @@ $orders = $conn->query($query);
                 <div class="bg-light p-3 rounded border  d-flex flex-column">
                     <h4>Dados Pessoais</h4>
                     <p><strong>Nome:</strong> <?= $_SESSION['user_name']; ?></p>
+                    <p><strong>Email:</strong> <?= $_SESSION['user_email']; ?></p>
                 </div>
             </div>
 
