@@ -18,7 +18,7 @@
     <link href="assets/css/style.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-dark">
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><img src="assets/imgs/logo.png" height="40px" /></a>
@@ -42,7 +42,7 @@
                         <a class="nav-link" aria-current="page" href="#">Fale Conosco</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#"><i class="fa fa-shopping-cart"
+                        <a class="nav-link" aria-current="page" href="cart.php"><i class="fa fa-shopping-cart"
                                 aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">

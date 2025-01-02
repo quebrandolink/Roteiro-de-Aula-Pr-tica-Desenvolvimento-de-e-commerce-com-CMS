@@ -1,4 +1,4 @@
-<footer class="mt-5 py-5 bg-dark text-light d-flex">
+<footer class="py-5 bg-dark text-light d-flex">
     <div class="container">
         <div class="row">
             <div class="col-md-3 footer-logo"> <img src="assets/imgs/logo.png" alt="Logo">

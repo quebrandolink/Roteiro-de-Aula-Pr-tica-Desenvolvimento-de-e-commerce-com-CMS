@@ -37,3 +37,8 @@
     height: 400px;
     object-fit: cover;
 }
+
+section {
+    padding: 50px 0;
+    background-color: #fff;
+}
