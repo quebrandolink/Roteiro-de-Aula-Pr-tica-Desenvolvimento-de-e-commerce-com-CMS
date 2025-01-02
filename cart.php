@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+// Lógica para atualizar as quantidades
+if (isset($_POST['update_quantity'])) {
+    $product_key = $_POST['product_key'];
+    $new_quantity = $_POST['quantity'];
+    echo $new_quantity . " - " . $product_key;
+
+    if ($new_quantity > 0) {
+        $_SESSION['cart'][$product_key]['quantity'] = $new_quantity;
+    }
+}
+
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
     $product_name = $_POST['product_name'];
@@ -36,8 +47,8 @@ if (isset($_POST['add_to_cart'])) {
 }
 
 
-if (isset($_POST['product_key'])) {
-    $product_key = $_POST['product_key'];
+if (isset($_POST['product_key_delete'])) {
+    $product_key = $_POST['product_key_delete'];
 
     // Remove o item do carrinho
     unset($_SESSION['cart'][$product_key]);
@@ -62,45 +73,54 @@ include('layouts/header.php');
             <h2>Meu Carrinho</h2>
 
             <?php if (!empty($_SESSION['cart'])): ?>
-                <a href="products.php" class="btn btn-primary">Continuar Comprando</a>
+            <a href="products.php" class="btn btn-primary">Continuar Comprando</a>
             <?php endif; ?>
 
         </div>
         <?php if (!empty($_SESSION['cart'])): ?>
-            <table class="table table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Produto</th>
-                        <th>Preço Unitário</th>
-                        <th>Quantidade</th>
-                        <th>Subtotal</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($_SESSION['cart'] as $key => $item): ?>
-                        <tr>
-                            <td><?= $item['product_name']; ?></td>
-                            <td>R$ <?= number_format($item['product_price'], 2, ',', '.'); ?></td>
-                            <td><?= $item['quantity']; ?></td>
-                            <td>R$ <?= number_format($item['product_price'] * $item['quantity'], 2, ',', '.'); ?></td>
-                            <td>
-                                <form method="POST" action="cart.php">
-                                    <input type="hidden" name="product_key" value="<?= $key; ?>">
-                                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-            <div class="text-end">
-                <h4 class="my-3">Total: R$ <?= number_format($total_price, 2, ',', '.'); ?></h4>
-                <a href="checkout.php" class="btn btn-success">Finalizar Compra</a>
-            </div>
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço Unitário</th>
+                    <th>Quantidade</th>
+                    <th>Subtotal</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($_SESSION['cart'] as $key => $item): ?>
+                <tr>
+                    <td><?= $item['product_name']; ?></td>
+                    <td>R$ <?= number_format($item['product_price'], 2, ',', '.'); ?></td>
+                    <td>
+                        <!-- Formulário para alterar a quantidade -->
+                        <form method="POST" action="cart.php" class="d-flex">
+                            <input type="hidden" name="product_key" value="<?= $key; ?>">
+                            <input type="number" name="quantity" class="form-control w-25 me-2"
+                                value="<?= $item['quantity']; ?>" min="1">
+                            <button type="submit" name="update_quantity"
+                                class="btn btn-primary btn-sm">Atualizar</button>
+                        </form>
+                    </td>
+                    <td>R$ <?= number_format($item['product_price'] * $item['quantity'], 2, ',', '.'); ?></td>
+                    <td>
+                        <form method="POST" action="cart.php">
+                            <input type="hidden" name="product_key_delete" value="<?= $key; ?>">
+                            <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                        </form>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="text-end">
+            <h4 class="my-3">Total: R$ <?= number_format($total_price, 2, ',', '.'); ?></h4>
+            <a href="checkout.php" class="btn btn-success">Finalizar Compra</a>
+        </div>
         <?php else: ?>
-            <p class="text-muted">Seu carrinho está vazio.</p>
-            <a href="products.php" class="btn btn-primary">Continuar Comprando</a>
+        <p class="text-muted">Seu carrinho está vazio.</p>
+        <a href="products.php" class="btn btn-primary">Continuar Comprando</a>
         <?php endif; ?>
     </div>
 </section>
