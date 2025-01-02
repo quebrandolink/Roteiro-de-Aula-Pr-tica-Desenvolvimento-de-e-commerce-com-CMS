@@ -117,7 +117,7 @@ $total_paginas = ceil($total_registros / $itens_por_pagina);
                                         <a href="add_product.php?product_id=<?= $product['product_id']; ?>"
                                             class="btn btn-warning btn-sm">Editar</a>
                                         <a href="add_image.php?product_id=<?= $product['product_id']; ?>"
-                                            class="btn btn-primary btn-sm">Imagens</a>
+                                            class="btn btn-primary btn-sm">Editar Imagens</a>
                                         <a href="products.php?delete_product=1&product_id=<?= $product['product_id']; ?>"
                                             class="btn btn-danger btn-sm">Excluir</a>
                                     </td>

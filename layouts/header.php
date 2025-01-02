@@ -46,7 +46,7 @@
                                 aria-hidden="true"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="admin/login.php"><i class="fa fa-user"
+                        <a class="nav-link" aria-current="page" href="login.php"><i class="fa fa-user"
                                 aria-hidden="true"></i></a>
                     </li>
                 </ul>
